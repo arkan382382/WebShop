@@ -8,7 +8,7 @@ public class Basket {
 
     void addToBasket(short idOfProduct, short howManyToBasket){
         productInsideOfBasket.add(new Order(idOfProduct, howManyToBasket));
-        info.UpdateAvailableQuantityAfterOrder_AddToBasket(String.valueOf(idOfProduct), howManyToBasket);
+        info.UpdateAvailableQuantityAfterOrder_ReduceTheAmountInDatabase(String.valueOf(idOfProduct), howManyToBasket);
     }
     void removeFromBasket(short idOfProduct, short howManyToRemove){
         short index = 0;
@@ -19,6 +19,6 @@ public class Basket {
         }
 
         productInsideOfBasket.remove(productInsideOfBasket.get(index));
-        info.UpdateAvailableQuantityAfterOrder_RemoveFromBasket(String.valueOf(idOfProduct), howManyToRemove);
+        info.UpdateAvailableQuantityAfterOrder_IncreaseTheAmountInDatabase(String.valueOf(idOfProduct), howManyToRemove);
     }
 }

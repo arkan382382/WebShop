@@ -36,12 +36,12 @@ public class ProductInfo {
         return availableQuantity;
     }
 
-    public void UpdateAvailableQuantityAfterOrder_AddToBasket(String productId, short howManyHasBeenOrdered){
-       String newValue = String.valueOf(availableQuantity - howManyHasBeenOrdered);
+    public void UpdateAvailableQuantityAfterOrder_ReduceTheAmountInDatabase(String productId, short howManyHasDecrease){
+       String newValue = String.valueOf(availableQuantity - howManyHasDecrease);
        this.availableQuantity = Short.parseShort((SQL_Worker.GetDataFromDatabase("UPDATE Arkan.dbo.product SET quantity = " + newValue + " WHERE productId = " + productId)));
     }
-    public void UpdateAvailableQuantityAfterOrder_RemoveFromBasket(String productId, short howManyHasBeenRemoved){
-        String newValue = String.valueOf(availableQuantity + howManyHasBeenRemoved);
+    public void UpdateAvailableQuantityAfterOrder_IncreaseTheAmountInDatabase(String productId, short howManyIncrease){
+        String newValue = String.valueOf(availableQuantity + howManyIncrease);
         this.availableQuantity = Short.parseShort((SQL_Worker.GetDataFromDatabase("UPDATE Arkan.dbo.product SET quantity = " + newValue + " WHERE productId = " + productId)));
     }
 }
