@@ -3,7 +3,7 @@ package com.company;
 import java.util.ArrayList;
 
 public class Basket {
-    private ArrayList<Order> productInsideOfBasket;
+    private ArrayList<Order> productInsideOfBasket; //here could be a map (map<produkt_name><product_id>
     ProductInfo info = new ProductInfo();
 
     public Basket(){
