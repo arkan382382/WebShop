@@ -3,14 +3,15 @@ import java.sql.*;
 
 public class SQL_Worker {
 
-    String connectionUrl = "jdbc:sqlserver://localhost:1433;integratedSecurity=true;user=Arkan;password=ddd;";
+    static String connectionUrl = "jdbc:sqlserver://localhost:1433;integratedSecurity=true;user=Arkan;password=ddd;";
 
-    private Connection con = null;
-    private Statement stmt = null;
-    private ResultSet rs = null;
-    private ResultSetMetaData rsmd = null; //do sprawdzenia metadanych jak: liczba kolumn
+    private static Connection con = null;
+    private static Statement stmt = null;
+    private static ResultSet rs = null;
+    private static ResultSetMetaData rsmd = null; //do sprawdzenia metadanych jak: liczba kolumn
 
-    public void GetDataFromDatabase(String statement){
+    public static String GetDataFromDatabase(String statement){
+        String result = null;
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -21,16 +22,19 @@ public class SQL_Worker {
 
             while (rs.next()) {
                 for(short i = 0; i < rsmd.getColumnCount(); i++){
-                    System.out.print(rs.getString(i) + " ");
-                    System.out.println();
+                    //System.out.print(rs.getString(i) + " ");   //back to void if necessary
+                    result += (rs.getString(i) + " ");
+                    //System.out.println();
+                    result += "/n";
                 }
             }
         }
         catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
         }
+        return result;
     }
-    public void CommitDataToDatabase(String statement){
+    public static void CommitDataToDatabase(String statement){
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
