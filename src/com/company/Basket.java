@@ -3,9 +3,12 @@ package com.company;
 import java.util.ArrayList;
 
 public class Basket {
-    private ArrayList<Order> productInsideOfBasket = new ArrayList<>();
+    private ArrayList<Order> productInsideOfBasket;
     ProductInfo info = new ProductInfo();
 
+    public Basket(){
+            productInsideOfBasket = new ArrayList<>();
+    }
     void addToBasket(short idOfProduct, short howManyToBasket){
         productInsideOfBasket.add(new Order(idOfProduct, howManyToBasket));
         info.UpdateAvailableQuantityAfterOrder_ReduceTheAmountInDatabase(String.valueOf(idOfProduct), howManyToBasket);

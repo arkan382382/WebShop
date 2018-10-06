@@ -9,10 +9,6 @@ public class ProductInfo {
     private short availableQuantity;
     private float price;
 
-   /* public Product(String name, short quantityOfProduct, ){
-        this.nameOfProduct = name;
-        this.availableQuantity = quantityOfProduct;
-    } */
    public ProductInfo(){
        this.productId = Short.parseShort((SQL_Worker.GetDataFromDatabase("SELECT tmp.productId FROM Arkan.dbo.product tmp")));
        this.nameOfProduct = (SQL_Worker.GetDataFromDatabase("SELECT tmp.nameOfProduct FROM Arkan.dbo.product tmp"));

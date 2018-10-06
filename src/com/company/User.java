@@ -6,6 +6,7 @@ public class User {
     private String user_name, user_surname, user_address, login, password;
     private short user_id;
     SQL_Worker tmp = new SQL_Worker();
+    Basket basketOfUser;
 
     public User(String name, String surname, String address, String login, String password){
         this.user_name = name;
@@ -14,6 +15,7 @@ public class User {
         this.login = login;
         this.password = password;
         this.user_id = (short) ((tmp.GetTheIdOfLastUser())+1);
+        basketOfUser = new Basket();
     }
     public String getUser_name(){
         return user_name;
