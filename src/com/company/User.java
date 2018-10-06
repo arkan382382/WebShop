@@ -11,7 +11,7 @@ public class User {
         this.user_adress = adress;
         this.login = login;
         this.password = password;
-        this.user_id = tmp.GetTheIdOfLastUser();
+        this.user_id = (short) ((tmp.GetTheIdOfLastUser())+1);
     }
 
 }
