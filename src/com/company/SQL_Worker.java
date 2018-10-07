@@ -44,7 +44,8 @@ public class SQL_Worker {
             e.printStackTrace();
         }
     }
-    public void GetNameOfColumns(String nameOfTable){/*rsmd.getColumnName(whichOne))*/}
+
+    //public int GetNameOfColumns(int indexOfColumn) throws SQLException { return Integer.parseInt((rsmd.getColumnName(indexOfColumn)));}
     public short GetTheIdOfLastUser(){
         short value = 0;
         try{

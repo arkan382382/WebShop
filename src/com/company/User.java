@@ -14,7 +14,7 @@ public class User {
         this.login = login;
         this.password = password;
         this.user_id = (short) ((tmp.GetTheIdOfLastUser())+1);
-        basketOfUser = new Basket();
+        //basketOfUser = new Basket();
     }
     public User(String name){
         this.user_name = name;

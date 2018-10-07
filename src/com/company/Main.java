@@ -7,8 +7,17 @@ import java.sql.*;
 public class Main {
 
     public static void main(String[] args) throws SQLException {
-       // Users a = new Users("Ariel", "Gierczak", "Warszawa, 01-231", "arkan", "newpasword");
-        Users a = new Users("Ariel");
+        Users a = new Users("'Ariel'", "'Gierczak'", "'Warszawa, 01-231'", "'arkan'", "'newpasword'");
+        System.out.println(a.user_test.getUser_id());
+        System.out.println(a.user_test.getUser_name());
+        System.out.println(a.user_test.getUser_surname());
+        System.out.println(a.user_test.getUser_address());
+        System.out.println(a.user_test.getLogin());
+        System.out.println(a.user_test.getUser_password());
+        SQL_Worker sql = new SQL_Worker();
+       // Sprawdzic pobieranie nazwy kolumny, wprowadzic do projektu bazowanie na nazwach kolumn pobrych z sql (a nie wprowadzanych z palca do querry)
+
+        // System.out.println(sql.GetNameOfColumns(1));
         //  SQL_Worker a = new SQL_Worker();
        // String test = "INSERT INTO WebShop.dbo.Users (UserId, UserName) VALUES (55, 'Ariel')"; //WORKING!!!
        // String select = "SELECT * from WebShop.dbo.Users";
