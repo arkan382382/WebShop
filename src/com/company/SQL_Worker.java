@@ -3,14 +3,13 @@ import java.sql.*;
 
 public class SQL_Worker {
 
-    static String connectionUrl = "jdbc:sqlserver://localhost:1433;integratedSecurity=true;user=Arkan;password=ddd;";
+    String connectionUrl = "jdbc:sqlserver://localhost:1433;integratedSecurity=true;user=Arkan;password=ddd;";
+    Connection con = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    ResultSetMetaData rsmd = null; //do sprawdzenia metadanych jak: liczba kolumn
 
-    private static Connection con = null;
-    private static Statement stmt = null;
-    private static ResultSet rs = null;
-    private static ResultSetMetaData rsmd = null; //do sprawdzenia metadanych jak: liczba kolumn
-
-    public static String GetDataFromDatabase(String statement){
+    public String GetDataFromDatabase(String statement){
         String result = null;
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -21,12 +20,12 @@ public class SQL_Worker {
             rsmd = rs.getMetaData();
 
             while (rs.next()) {
-                for(short i = 0; i < rsmd.getColumnCount(); i++){
+                for(short i = 1; i < rsmd.getColumnCount(); i++){
                     //System.out.print(rs.getString(i) + " ");   //back to void if necessary
                     result += (rs.getString(i) + " ");
                     //System.out.println();
-                    result += "/n";
                 }
+                result += "\n";
             }
         }
         catch (SQLException | ClassNotFoundException e){
@@ -34,11 +33,10 @@ public class SQL_Worker {
         }
         return result;
     }
-    public static void CommitDataToDatabase(String statement){
+    public void CommitDataToDatabase(String statement){
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
-
             stmt = con.createStatement();
             rs = stmt.executeQuery(statement);
         }
@@ -54,9 +52,11 @@ public class SQL_Worker {
             con = DriverManager.getConnection(connectionUrl);
 
             stmt = con.createStatement();
-            rs = stmt.executeQuery("SELECT tmp.UserID from Arkan.dbo.users tmp");                       //check if working
-            rsmd = rs.getMetaData();
-
+            rs = stmt.executeQuery("SELECT tmp.UserId from WebShop.dbo.users tmp");                       //check if working
+            //rsmd = rs.getMetaData();
+            while (rs == null){
+                value = 1;
+            }
             while (rs.next()) {
                 value = rs.getShort(1);
             }

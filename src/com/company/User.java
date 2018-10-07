@@ -1,6 +1,5 @@
 package com.company;
 
-import sun.security.util.Password;
 
 public class User {
     private String user_name, user_surname, user_address, login, password;
@@ -16,6 +15,9 @@ public class User {
         this.password = password;
         this.user_id = (short) ((tmp.GetTheIdOfLastUser())+1);
         basketOfUser = new Basket();
+    }
+    public User(String name){
+        this.user_name = name;
     }
     public String getUser_name(){
         return user_name;

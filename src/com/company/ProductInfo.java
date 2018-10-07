@@ -8,12 +8,13 @@ public class ProductInfo {
     private String nameOfProduct;
     private short availableQuantity;
     private float price;
+    SQL_Worker sql = new SQL_Worker();
 
    public ProductInfo(){
-       this.productId = Short.parseShort((SQL_Worker.GetDataFromDatabase("SELECT tmp.productId FROM Arkan.dbo.product tmp")));
-       this.nameOfProduct = (SQL_Worker.GetDataFromDatabase("SELECT tmp.nameOfProduct FROM Arkan.dbo.product tmp"));
-       this.availableQuantity = Short.parseShort((SQL_Worker.GetDataFromDatabase("SELECT tmp.quantity FROM Arkan.dbo.product tmp")));
-       this.price = Float.parseFloat((SQL_Worker.GetDataFromDatabase("SELECT tmp.price FROM Arkan.dbo.product tmp")));
+       this.productId = Short.parseShort((sql.GetDataFromDatabase("SELECT tmp.ProductId FROM WebShop.dbo.Product tmp")));
+       this.nameOfProduct = (sql.GetDataFromDatabase("SELECT tmp.ProductName FROM WebShop.dbo.Product tmp"));
+       this.availableQuantity = Short.parseShort((sql.GetDataFromDatabase("SELECT tmp.Quantity FROM WebShop.dbo.Product tmp")));
+       this.price = Float.parseFloat((sql.GetDataFromDatabase("SELECT tmp.Price FROM WebShop.dbo.Product tmp")));
    }
 
     public short howManyProductsLeft(short productID){
@@ -34,10 +35,10 @@ public class ProductInfo {
 
     public void UpdateAvailableQuantityAfterOrder_ReduceTheAmountInDatabase(String productId, short howManyHasDecrease){
        String newValue = String.valueOf(availableQuantity - howManyHasDecrease);
-       this.availableQuantity = Short.parseShort((SQL_Worker.GetDataFromDatabase("UPDATE Arkan.dbo.product SET quantity = " + newValue + " WHERE productId = " + productId)));
+       this.availableQuantity = Short.parseShort((sql.GetDataFromDatabase("UPDATE WebShop.dbo.Product SET quantity = " + newValue + " WHERE ProductId = " + productId)));
     }
     public void UpdateAvailableQuantityAfterOrder_IncreaseTheAmountInDatabase(String productId, short howManyIncrease){
         String newValue = String.valueOf(availableQuantity + howManyIncrease);
-        this.availableQuantity = Short.parseShort((SQL_Worker.GetDataFromDatabase("UPDATE Arkan.dbo.product SET quantity = " + newValue + " WHERE productId = " + productId)));
+        this.availableQuantity = Short.parseShort((sql.GetDataFromDatabase("UPDATE WebShop.dbo.Product SET Quantity = " + newValue + " WHERE ProductId = " + productId)));
     }
 }
