@@ -8,7 +8,23 @@ public class SQL_Worker {
     Statement stmt = null;
     ResultSet rs = null;
     ResultSetMetaData rsmd = null; //do sprawdzenia metadanych jak: liczba kolumn
+    public int getCoulmnCount(){
+        int value = 0;
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
 
+            stmt = con.createStatement();
+            rsmd = rs.getMetaData();
+
+            value = rsmd.getColumnCount();
+            } catch (ClassNotFoundException e1) {
+            e1.printStackTrace();
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        }
+        return value;
+    }
     public String GetDataFromDatabase(String statement){
         String result = null;
         try{
@@ -46,6 +62,7 @@ public class SQL_Worker {
     }
 
     //public int GetNameOfColumns(int indexOfColumn) throws SQLException { return Integer.parseInt((rsmd.getColumnName(indexOfColumn)));}
+
     public short GetTheIdOfLastUser(){
         short value = 0;
         try{

@@ -2,11 +2,9 @@ package com.company;
 
 import java.sql.*;
 
-
-
 public class Main {
-
     public static void main(String[] args) throws SQLException {
+        SQL_Worker sql = new SQL_Worker();
         Users a = new Users("'Ariel'", "'Gierczak'", "'Warszawa, 01-231'", "'arkan'", "'newpasword'");
         System.out.println(a.user_test.getUser_id());
         System.out.println(a.user_test.getUser_name());
@@ -14,7 +12,11 @@ public class Main {
         System.out.println(a.user_test.getUser_address());
         System.out.println(a.user_test.getLogin());
         System.out.println(a.user_test.getUser_password());
-        SQL_Worker sql = new SQL_Worker();
+        System.out.println(a.xd + ", " + a.xd2 + " " + sql.GetDataFromDatabase("Select @@servername" ));
+
+
+        System.out.println(a.getUserDetails().get(0).getUser_name());
+
        // Sprawdzic pobieranie nazwy kolumny, wprowadzic do projektu bazowanie na nazwach kolumn pobrych z sql (a nie wprowadzanych z palca do querry)
 
         // System.out.println(sql.GetNameOfColumns(1));
