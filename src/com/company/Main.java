@@ -14,8 +14,15 @@ public class Main {
         System.out.println(a.user_test.getUser_password());
         System.out.println(a.xd + ", " + a.xd2 + " " + sql.GetDataFromDatabase("Select @@servername" ));
 
-
+        System.out.println(a.listOfAllUsers.get(0).getUser_name());
         System.out.println(a.getUserDetails().get(0).getUser_name());
+        System.out.println(NewSQL_Worker.getMetaDataFromTheDatabase().getColumnName(2));
+        System.out.println(NewSQL_Worker.getRowCount("WebShop.dbo.Users"));
+
+        System.out.println(a.listOfAllUsers.size());
+        NewSQL_Worker.updateExistingDatas(a, "WebShop.dbo.Users");
+        System.out.println(a.listOfAllUsers.size());
+        System.out.println(a.getUserDetails().get(3).getUser_surname());
 
        // Sprawdzic pobieranie nazwy kolumny, wprowadzic do projektu bazowanie na nazwach kolumn pobrych z sql (a nie wprowadzanych z palca do querry)
 
