@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Users {
-    private ArrayList<User> listOfAllUsers = new ArrayList<>();
+    ArrayList<User> listOfAllUsers = new ArrayList<>();
     public User user_test;
     public int xd = 0;
     public int xd2 = 0;
@@ -40,7 +40,7 @@ public class Users {
         }
         public void createUser(String n, String s, String a, String l, String p){
             listOfAllUsers.add(new User(n, s, a, l, p));
-            System.out.println("dlugosc = " + listOfAllUsers.size());
+            //System.out.println("dlugosc = " + listOfAllUsers.size());
             user_test = new User(n, s, a, l, p);        //do usunięcia
         }
         public ArrayList<User> getUserDetails(){

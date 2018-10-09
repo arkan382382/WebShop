@@ -13,7 +13,7 @@ public class User {
         this.user_address = address;
         this.login = login;
         this.password = password;
-        this.user_id = (short) ((tmp.GetTheIdOfLastUser())+1);
+     //   this.user_id = (short) ((tmp.GetTheIdOfLastUser())+1);
         //basketOfUser = new Basket();
     }
     public User(String name){
