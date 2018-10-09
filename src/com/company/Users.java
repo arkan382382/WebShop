@@ -9,12 +9,13 @@ public class Users {
     public int xd = 0;
     public int xd2 = 0;
     public Users(String n, String s, String a, String l, String p) throws SQLException {
-        xd = listOfAllUsers.size();
+
         SQL_Worker sql = new SQL_Worker();
         if(listOfAllUsers.size() == 0){
-          //  sql.rsmd.getColumnCount();
+
         }
         // W pierwszej kolejności aktualizacja ArrayList danymi z DB jeżeli arraylist jest pusta
+
         createUser(n, s, a, l, p);
         xd2 = listOfAllUsers.size();
 
@@ -34,7 +35,7 @@ public class Users {
     }
         public void createUserTest(String n){       //do usunięcia
         listOfAllUsers.add(new User(n));
-        SQL_Worker sql = new SQL_Worker();
+        SQL_Worker sql = new SQL_Worker();           //do usunięcia
         //String name = new User(n).getUser_name(); this is not necessary
             sql.CommitDataToDatabase("INSERT INTO WebShop.dbo.Users (UserName) VALUES ('" + n + "')");
         }
