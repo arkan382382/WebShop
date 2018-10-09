@@ -20,9 +20,9 @@ public class Main {
         System.out.println(NewSQL_Worker.getRowCount("WebShop.dbo.Users"));
 
         System.out.println(a.listOfAllUsers.size());
-        NewSQL_Worker.updateExistingDatas(a, "WebShop.dbo.Users");
+        NewSQL_Worker.updateExistingDataOfUsers(a, "WebShop.dbo.Users");
         System.out.println(a.listOfAllUsers.size());
-        System.out.println(a.getUserDetails().get(3).getUser_surname());
+        System.out.println(a.getUserDetails().get(3).getUser_name());
 
        // Sprawdzic pobieranie nazwy kolumny, wprowadzic do projektu bazowanie na nazwach kolumn pobrych z sql (a nie wprowadzanych z palca do querry)
 
