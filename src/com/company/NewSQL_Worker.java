@@ -65,7 +65,7 @@ public class NewSQL_Worker {
     public static void getIdOfLastUserInDb(String tableName){
 
 
-      //  rs.close();
+      //rs.close();
         //con.close();
         //stmt.close();
     }
