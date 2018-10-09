@@ -62,11 +62,36 @@ public class NewSQL_Worker {
             e.printStackTrace();
         }
     }
-    public static void getIdOfLastUserInDb(String tableName){
 
+    public void CommitDataToDatabase(Users users, String tableName){ //nie działa
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+            stmt = con.createStatement();
+      //      rs = stmt.executeQuery("INSERT INTO " + tableName + " " + rsmd.getColumnName(2) +  +"(UserName) VALUES ('" + n + "')");
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
 
-      //rs.close();
-        //con.close();
-        //stmt.close();
+    public static short getIdOfLastUserInDb(){  //nie działa w klasie User, ogólnie pobiera prawidłowe wartości
+        short value = 0;
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("Select tmp.UserId FROM WebShop.dbo.Users tmp");
+            while (rs.next()){
+                value = rs.getShort("UserId");
+            }
+            rs.close();
+            con.close();
+            stmt.close();
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return value;
     }
 }

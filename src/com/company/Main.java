@@ -4,26 +4,28 @@ import java.sql.*;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        SQL_Worker sql = new SQL_Worker();
         Users a = new Users("'Ariel'", "'Gierczak'", "'Warszawa, 01-231'", "'arkan'", "'newpasword'");
-        System.out.println(a.user_test.getUser_id());
-        System.out.println(a.user_test.getUser_name());
-        System.out.println(a.user_test.getUser_surname());
-        System.out.println(a.user_test.getUser_address());
-        System.out.println(a.user_test.getLogin());
-        System.out.println(a.user_test.getUser_password());
-        System.out.println(a.xd + ", " + a.xd2 + " " + sql.GetDataFromDatabase("Select @@servername" ));
 
-        System.out.println(a.listOfAllUsers.get(0).getUser_name());
-        System.out.println(a.getUserDetails().get(0).getUser_name());
-        System.out.println(NewSQL_Worker.getMetaDataFromTheDatabase().getColumnName(2));
-        System.out.println(NewSQL_Worker.getRowCount("WebShop.dbo.Users"));
+      //  System.out.println(a.listOfAllUsers.get(0).getUser_name());
+      //  System.out.println(a.getUserDetails().get(0).getUser_name());
+      //  System.out.println(NewSQL_Worker.getMetaDataFromTheDatabase().getColumnName(2));
+      //  System.out.println(NewSQL_Worker.getRowCount("WebShop.dbo.Users"));
 
-        System.out.println(a.listOfAllUsers.size());
+        System.out.println("beforeUpdate:");
+        for(int i=0; i<a.getUserDetails().size(); i++){
+            System.out.println(a.getUserDetails().get(i).getUser_id() + " " + a.getUserDetails().get(i).getUser_name());
+        }
+
         NewSQL_Worker.updateExistingDataOfUsers(a, "WebShop.dbo.Users");
-        System.out.println(a.listOfAllUsers.size());
-        System.out.println(a.getUserDetails().get(3).getUser_name());
 
+        System.out.println("afterUpdate:");
+        for(int i=0; i<a.getUserDetails().size(); i++){
+            System.out.println(a.getUserDetails().get(i).getUser_id() + " " + a.getUserDetails().get(i).getUser_name());
+        }
+
+        System.out.println(NewSQL_Worker.getIdOfLastUserInDb());
+
+       // System.out.println(a.getUserDetails().get(a.getUserDetails().size()-1).getUser_name());
        // Sprawdzic pobieranie nazwy kolumny, wprowadzic do projektu bazowanie na nazwach kolumn pobrych z sql (a nie wprowadzanych z palca do querry)
 
         // System.out.println(sql.GetNameOfColumns(1));
