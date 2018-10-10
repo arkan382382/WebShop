@@ -14,6 +14,7 @@ public class Users {
         // W pierwszej kolejności aktualizacja ArrayList danymi z DB jeżeli arraylist jest pusta
 
         createUser(n, s, a, l, p);
+        //VeryficationAndExecutionIfUserShouldBeCreatedInList(n, s, a, l, p);
 
         // W drugiej kolejności tworzenie nowego użytkownika w DB
 
@@ -39,4 +40,41 @@ public class Users {
             return listOfAllUsers;
         }
 
-}
+        public void updateUserIdForDownloadedUsers(Users user, short howManyUsers){
+            for(int i=0; i<(NewSQL_Worker.getRowCount("WebShop.dbo.Users")); i++){
+                user.getUserDetails().get(i).setUser_id(Short.parseShort(NewSQL_Worker.getSpecificUserDataFromDatabase("UserId", (short) (i+1))));
+            }
+        }
+    public void VeryficationAndExecutionIfUserShouldBeCreatedInList(String name, String surname, String address, String login, String password){
+        int a  = NewSQL_Worker.getRowCount("WebShop.dbo.Users");
+       // int isTheNameInsideOfDb, linker_name, linker_surname, isTheSurnameInsideOfDb;
+        for(short i = 0; i<NewSQL_Worker.getRowCount("WebShop.dbo.Users"); i++) {
+            if ((name.equals(NewSQL_Worker.getSpecificUserDataFromDatabase("UserName", (short) (i + 1)))) && (surname.equals(NewSQL_Worker.getSpecificUserDataFromDatabase("UserSurname", (short) (i + 1))))) {
+                // isTheNameInsideOfDb = 1;
+                // linker_name = i;
+                System.out.println("The provided data exist in database: ");
+            }
+            else if((!name.equals(NewSQL_Worker.getSpecificUserDataFromDatabase("UserName", (short) (i + 1)))) &&(!surname.equals(NewSQL_Worker.getSpecificUserDataFromDatabase("UserName", (short) (i + 1))))) {
+                while(i ==a){  //cos tu nie gra
+                    createUser(name, surname, address, login, password);
+                }
+            }
+        }
+
+
+
+       //     if(surname == NewSQL_Worker.getSpecificUserDataFromDatabase("UserSurname", (short) (i+1))){
+               // isTheSurnameInsideOfDb = 1;
+               // linker_surname = i;
+
+        }
+
+        /*if(isTheNameInsideOfDb == 1 && isTheSurnameInsideOfDb == 1 && linker_name == linker_surname){
+            System.out.println("The provided data exist in database: ");
+        }else
+        if(isTheNameInsideOfDb == 0 && isTheSurnameInsideOfDb == 0) {
+            createUser(name, surname, address, login, password);
+        } */
+    }
+
+

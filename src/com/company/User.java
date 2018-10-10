@@ -37,4 +37,7 @@ public class User {
     public String getUser_password(){
         return password;
     }
+    public void setUser_id(short user_id){
+        this.user_id = user_id;
+    }
 }

@@ -16,9 +16,7 @@ public class NewSQL_Worker {
             stmt = con.createStatement();
             rs = stmt.executeQuery("SELECT * FROM WebShop.dbo.Users");
             rsmd = rs.getMetaData();
-            rs.close();
-            con.close();
-            stmt.close();
+            closeConnection(con, stmt, rs);
         }
         catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
@@ -34,9 +32,7 @@ public class NewSQL_Worker {
             rs = stmt.executeQuery("SELECT COUNT (*) AS 'rowcount' FROM " + tableName);
             rs.next();
             count = rs.getInt("rowcount");
-            rs.close();
-            con.close();
-            stmt.close();
+            closeConnection(con, stmt, rs);
         }
         catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
@@ -45,6 +41,7 @@ public class NewSQL_Worker {
     }
     public static void updateExistingDataOfUsers(Users users, String tableName){
         //users -> clear
+        users.getUserDetails().clear();
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
@@ -54,15 +51,40 @@ public class NewSQL_Worker {
             while (rs.next()){
                 users.createUser(rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6));
             }
-            rs.close();
-            con.close();
-            stmt.close();
+            closeConnection(con, stmt, rs);
         }
         catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
         }
     }
 
+    public void updateUserIdForDownloadedUsers(Users user, short howManyUsers){
+        for(short i=1; i<howManyUsers; i++){
+            user.getUserDetails().get(i).setUser_id(Short.parseShort(NewSQL_Worker.getSpecificUserDataFromDatabase("UserId", i)));
+
+        }
+    }
+    public static String getSpecificUserDataFromDatabase(String columnName, short row){
+        String result = "";
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("Select tmp." + columnName +" FROM WebShop.dbo.Users tmp");
+
+            for(int i = 0; i<row; i++){		//sprawdzić czy w db numeruje się od 1
+                rs.next();
+            }
+            result = rs.getString(columnName);
+            closeConnection(con, stmt, rs);
+
+            //closeConnection(con, stmt, rs); check if it works
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        return result;
+    }
     public void CommitDataToDatabase(Users users, String tableName){ //nie działa
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -85,13 +107,17 @@ public class NewSQL_Worker {
             while (rs.next()){
                 value = rs.getShort("UserId");
             }
-            rs.close();
-            con.close();
-            stmt.close();
+            closeConnection(con, stmt, rs);
         }
         catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
         }
         return value;
+    }
+
+    public static void closeConnection(Connection con, Statement stmt, ResultSet rs) throws SQLException {
+        rs.close();
+        con.close();
+        stmt.close();
     }
 }
