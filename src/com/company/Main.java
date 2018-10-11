@@ -25,12 +25,19 @@ public class Main {
         //*
         a.updateUserIdForDownloadedUsers(a, (short) NewSQL_Worker.getRowCount("WebShop.dbo.Users")); //Update of userId in array
 
-        System.out.println(a.getUserDetails().size());
-        a.createUser("A", "A", "x", "x", "x");
-        System.out.println(a.getUserDetails().size());
-        a.VeryficationAndExecutionIfUserShouldBeCreatedInList("A", "X", "x", "x", "x");
-        System.out.println(a.getUserDetails().size());
+        for(int i=0; i<a.getUserDetails().size(); i++){
+            System.out.println(a.getUserDetails().get(i).getUser_id() + " " + a.getUserDetails().get(i).getUser_name());
+        }
 
+        System.out.println("Przed dodaniem: " + a.getUserDetails().size());
+        //a.VeryficationAndExecutionIfUserShouldBeCreatedInList("A", "X", "x", "x", "x");
+        a.VeryficationAndExecutionIfUserShouldBeCreatedInList2(a, "a", "b", "x", "x", "x");
+        System.out.println("Po dodaniu: " + a.getUserDetails().size());
+
+        System.out.println(a.getUserDetails().size() + " " + NewSQL_Worker.getRowCount("WebShop.dbo.Users"));
+        String n = "b";
+        System.out.println((!n.equals(a.getUserDetails().get(1).getUser_name())));
+        System.out.println(a.getUserDetails().get(7).getUser_name() + " " + NewSQL_Worker.getSpecificUserDataFromDatabase("UserName", (short) 8));
 /*
 Nadawanie ID_user – nie na poziomie tworzenia usera.
 
