@@ -4,7 +4,7 @@ package com.company;
 public class User {
     private String user_name, user_surname, user_address, login, password;
     private int user_id;
-    Basket basketOfUser;
+  //  private Basket basketOfUser;
 
     public User(String name, String surname, String address, String login, String password){
         this.user_name = name;
@@ -14,7 +14,7 @@ public class User {
         this.password = password;
        // this.user_id = (short) (NewSQL_Worker.getIdOfLastUserInDb()+1);
      //   this.user_id = (short) ((tmp.GetTheIdOfLastUser())+1);
-        //basketOfUser = new Basket();
+//        basketOfUser = new Basket();
     }
     public User(String name){
         this.user_name = name;

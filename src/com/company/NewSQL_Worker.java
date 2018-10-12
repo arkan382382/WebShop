@@ -85,17 +85,6 @@ public class NewSQL_Worker {
         }
         return result;
     }
-    public void CommitDataToDatabase(Users users, String tableName){ //nie działa
-        try{
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            con = DriverManager.getConnection(connectionUrl);
-            stmt = con.createStatement();
-      //      rs = stmt.executeQuery("INSERT INTO " + tableName + " " + rsmd.getColumnName(2) +  +"(UserName) VALUES ('" + n + "')");
-        }
-        catch (SQLException | ClassNotFoundException e){
-            e.printStackTrace();
-        }
-    }
 
     public static short getIdOfLastUserInDb(){  //nie działa w klasie User, ogólnie pobiera prawidłowe wartości
         short value = 0;
@@ -115,6 +104,47 @@ public class NewSQL_Worker {
         return value;
     }
 
+    public static void commitUserToDatabase(Users user) throws SQLException {
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+            stmt = con.createStatement();
+            User tmp = user.getUserDetails().get(user.getUserDetails().size());
+
+            if(NewSQL_Worker.checkIfDatabaseHasOldData(user)){
+                rs = stmt.executeQuery("INSERT INTO tablename (UserId, UserName, UserSurname, UserAdress, Login, Password) " +
+                        "VALUES ("+tmp.getUser_id()+", " + tmp.getUser_name()+", "+tmp.getUser_surname()+", "+tmp.getUser_address()+
+                        ", "+tmp.getLogin()+", "+tmp.getUser_password()+")");
+            }
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        closeConnection(con, stmt, rs);
+    }
+
+    public static boolean checkIfDatabaseHasOldData(Users user){
+        boolean a = true;
+        User tmp = user.getUserDetails().get(user.getUserDetails().size());
+        if((NewSQL_Worker.getRowCount("tablename")) == user.getUserDetails().size()){
+            a = false;
+        }
+        return a;
+    }
+
+    //////////////
+    public void CommitDataToDatabase(Users users, String tableName){ //nie działa
+        try{
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            con = DriverManager.getConnection(connectionUrl);
+            stmt = con.createStatement();
+            //      rs = stmt.executeQuery("INSERT INTO " + tableName + " " + rsmd.getColumnName(2) +  +"(UserName) VALUES ('" + n + "')");
+        }
+        catch (SQLException | ClassNotFoundException e){
+            e.printStackTrace();
+        }
+    }
+    ////////////////
     public static void closeConnection(Connection con, Statement stmt, ResultSet rs) throws SQLException {
         rs.close();
         con.close();

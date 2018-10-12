@@ -54,15 +54,8 @@ public class Users {
                 }
         }
     }
-/*
+
     public void createUserIdForNewlyCreatedUser(){
-        int sizeForIndex = this.getUserDetails().size() - 1;
-        int lastId = this.getUserDetails().get(sizeForIndex).getUser_id();
-        int lastUser = sizeForIndex;
-        this.getUserDetails().get(lastUser).setUser_id((short) (lastId+1));
-    }
-*/
-    public void createUserIdForNewlyCreatedUser2(){
         if(this.getUserDetails().size() != fullyUpdatedRows()){
             int tmp = 1;
             tmp += (this.getUserDetails().get((this.getUserDetails().size())-2).getUser_id());

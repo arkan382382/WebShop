@@ -7,55 +7,28 @@ public class Main {
         //* #1
         Users a = new Users("'Ariel'", "'Gierczak'", "'Warszawa, 01-231'", "'arkan'", "'newpasword'");
 
-        System.out.println("beforeUpdate:");
-        for(int i=0; i<a.getUserDetails().size(); i++){
-            System.out.println(a.getUserDetails().get(i).getUser_id() + " " + a.getUserDetails().get(i).getUser_name());
-        }
-
         //* #2
         NewSQL_Worker.updateExistingDataOfUsers(a, "WebShop.dbo.Users"); //clear existing list and update by those from db
-
-        System.out.println("afterUpdate:");
-        for(int i=0; i<a.getUserDetails().size(); i++){
-            System.out.println(a.getUserDetails().get(i).getUser_id() + " " + a.getUserDetails().get(i).getUser_name());
-        }
-
-        System.out.println(NewSQL_Worker.getSpecificUserDataFromDatabase("UserId", (short) 3));
 
         //* #3
         a.updateUserIdForDownloadedUsers(a, (short) NewSQL_Worker.getRowCount("WebShop.dbo.Users")); //Update of userId in array
 
-        for(int i=0; i<a.getUserDetails().size(); i++){
-            System.out.println(a.getUserDetails().get(i).getUser_id() + " " + a.getUserDetails().get(i).getUser_name());
-        }
-
-        System.out.println("Przed dodaniem: " + a.getUserDetails().size());
         //* #4
         a.VeryficationAndExecutionIfUserShouldBeCreatedInList("Arielos", "XD", "x", "x", "x");
 
-        System.out.println("Po dodaniu: " + a.getUserDetails().size());
-
-        //* #5 - zaktualizować funkcję poniższymi linijkami - przykelonymi
-      //  a.createUserIdForNewlyCreatedUser();
-        //    a.getUserDetails().get(a.getUserDetails().size()-1).setUser_id((short) 25);
-          //  System.out.println(a.getUserDetails().size() + " " + a.getUserDetails().get(a.getUserDetails().size()-1).getUser_name() + " " +
-            //        a.getUserDetails().get(a.getUserDetails().size()-1).getUser_id());
-
-            System.out.println("id dodanego: " + a.getUserDetails().get(a.getUserDetails().size()-1).getUser_name() + ", id: " + a.getUserDetails().get(a.getUserDetails().size()-1).getUser_id());
-
-            System.out.println(a.getUserDetails().size());
-            System.out.println(a.fullyUpdatedRows());
-
-            int as = (a.getUserDetails().get(a.getUserDetails().size()-2).getUser_id());
-            System.out.println("a = " + as);
-        System.out.println(a.getUserDetails().get((a.fullyUpdatedRows())-1).getUser_id());
-
         // #5
-            a.createUserIdForNewlyCreatedUser2();
+            a.createUserIdForNewlyCreatedUser();
 
 
-            System.out.println(a.fullyUpdatedRows());
-        System.out.println(a.getUserDetails().get((a.fullyUpdatedRows())-1).getUser_id());
+
+
+
+        for(int i=0; i<a.getUserDetails().size(); i++){
+            System.out.println("userId: " + a.getUserDetails().get(i).getUser_id() + ", name: " + a.getUserDetails().get(i).getUser_name());
+        }
+
+        // #6 update dabatase by newly added user
+       // NewSQL_Worker.commitUserToDatabase(a); <- do sprawdzenia - i do poprawy nazwy tabel
             /*
 Nadawanie ID_user – nie na poziomie tworzenia usera.
 
