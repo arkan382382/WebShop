@@ -36,13 +36,27 @@ public class Main {
         System.out.println("Po dodaniu: " + a.getUserDetails().size());
 
         //* #5 - zaktualizować funkcję poniższymi linijkami - przykelonymi
-        a.createUserIdForNewlyCreatedUser();
-            a.getUserDetails().get(a.getUserDetails().size()-1).setUser_id((short) 25);
-            System.out.println(a.getUserDetails().size() + " " + a.getUserDetails().get(a.getUserDetails().size()-1).getUser_name() + " " +
-                    a.getUserDetails().get(a.getUserDetails().size()-1).getUser_id());
+      //  a.createUserIdForNewlyCreatedUser();
+        //    a.getUserDetails().get(a.getUserDetails().size()-1).setUser_id((short) 25);
+          //  System.out.println(a.getUserDetails().size() + " " + a.getUserDetails().get(a.getUserDetails().size()-1).getUser_name() + " " +
+            //        a.getUserDetails().get(a.getUserDetails().size()-1).getUser_id());
 
             System.out.println("id dodanego: " + a.getUserDetails().get(a.getUserDetails().size()-1).getUser_name() + ", id: " + a.getUserDetails().get(a.getUserDetails().size()-1).getUser_id());
-        /*
+
+            System.out.println(a.getUserDetails().size());
+            System.out.println(a.fullyUpdatedRows());
+
+            int as = (a.getUserDetails().get(a.getUserDetails().size()-2).getUser_id());
+            System.out.println("a = " + as);
+        System.out.println(a.getUserDetails().get((a.fullyUpdatedRows())-1).getUser_id());
+
+        // #5
+            a.createUserIdForNewlyCreatedUser2();
+
+
+            System.out.println(a.fullyUpdatedRows());
+        System.out.println(a.getUserDetails().get((a.fullyUpdatedRows())-1).getUser_id());
+            /*
 Nadawanie ID_user – nie na poziomie tworzenia usera.
 
 1.      Pobieranie danych z bazy danych – bez userId,                                  funkcją createUser- bez parametru id – czyli users.add…

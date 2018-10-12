@@ -3,6 +3,8 @@ package com.company;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import static java.sql.Types.NULL;
+
 public class Users {
     ArrayList<User> listOfAllUsers = new ArrayList<>();
 
@@ -52,12 +54,29 @@ public class Users {
                 }
         }
     }
-
+/*
     public void createUserIdForNewlyCreatedUser(){
         int sizeForIndex = this.getUserDetails().size() - 1;
         int lastId = this.getUserDetails().get(sizeForIndex).getUser_id();
         int lastUser = sizeForIndex;
         this.getUserDetails().get(lastUser).setUser_id((short) (lastId+1));
+    }
+*/
+    public void createUserIdForNewlyCreatedUser2(){
+        if(this.getUserDetails().size() != fullyUpdatedRows()){
+            int tmp = 1;
+            tmp += (this.getUserDetails().get((this.getUserDetails().size())-2).getUser_id());
+            this.getUserDetails().get(this.getUserDetails().size()-1).setUser_id(tmp);
+        }
+    }
+    public int fullyUpdatedRows(){
+        int value = 0;
+        for(short i=0; i<this.getUserDetails().size(); i++){
+            if(this.getUserDetails().get(i).getUser_id() != NULL){
+                value++;
+            }
+        }
+        return value;
     }
 
     public int compareNameOk(String name, String surname) {   // 1 - znajduje się na liście, 0 - nie znajduje się na liście

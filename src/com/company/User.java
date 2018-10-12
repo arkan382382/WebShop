@@ -3,7 +3,7 @@ package com.company;
 
 public class User {
     private String user_name, user_surname, user_address, login, password;
-    private short user_id;
+    private int user_id;
     Basket basketOfUser;
 
     public User(String name, String surname, String address, String login, String password){
@@ -32,12 +32,12 @@ public class User {
         return login;
     }
     public short getUser_id(){
-        return user_id;
+        return (short) user_id;
     }
     public String getUser_password(){
         return password;
     }
-    public void setUser_id(short user_id){
+    public void setUser_id(int user_id){
         this.user_id = user_id;
     }
 }
