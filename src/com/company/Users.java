@@ -2,6 +2,8 @@ package com.company;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import static java.sql.Types.NULL;
 
@@ -10,16 +12,7 @@ public class Users {
 
     public Users(String n, String s, String a, String l, String p) throws SQLException {
         createUser(n, s, a, l, p);
-
-        //sql.CommitDataToDatabase("INSERT INTO WebShop.dbo.User (" + sql.rsmd.getColumnName(1));
-        // condition which checks the duplicate of login - getting it from database
-//            SQL_Worker.CommitDataToDatabase("INSERT INTO WebShop.dbo.User (UserId, UserName, UserSurname, UserAddress, UserLogin, UserPassword)" +
-      /*  sql.CommitDataToDatabase("INSERT INTO WebShop.dbo.Users (UserId, UserName, UserSurname, UserAdress, UserLogin, UserPassword)" +
-                "VALUES (" + String.valueOf(listOfAllUsers.get(Integer.valueOf(listOfAllUsers.size())).getUser_id()) + ", " + listOfAllUsers.get(listOfAllUsers.size()).getUser_name() + //dodać wszędzue String.valueOf()
-                "'," + listOfAllUsers.get(listOfAllUsers.size()).getUser_surname() + ", " + listOfAllUsers.get(listOfAllUsers.size()).getUser_address() +
-                ", " + listOfAllUsers.get(listOfAllUsers.size()).getLogin() + ", " + listOfAllUsers.get(listOfAllUsers.size()).getUser_password() + ")"); */
-        //sql.CommitDataToDatabase("INSERT INTO WebShop.dbo.Users (UserId, UserName, UserSurname, UserAdress, UserLogin, UserPassword) VALUES ("+String.valueOf(listOfAllUsers.get(listOfAllUsers.size()).getUser_id()) +", 'A', 'A', 'A', 'A', 'A')");
-    }
+}
 
     public void createUserTest(String n) {       //do usunięcia
         listOfAllUsers.add(new User(n));
@@ -36,7 +29,7 @@ public class Users {
         return listOfAllUsers;
     }
 
-    public void updateUserIdForDownloadedUsers(Users user, short howManyUsers) {
+    public void updateUserIdForDownloadedUsers(Users user, short howManyUsers) throws SQLException {
         for (int i = 0; i < (NewSQL_Worker.getRowCount("WebShop.dbo.Users")); i++) {
             user.getUserDetails().get(i).setUser_id(Short.parseShort(NewSQL_Worker.getSpecificUserDataFromDatabase("UserId", (short) (i + 1))));
         }
@@ -44,7 +37,7 @@ public class Users {
 
     public void VeryficationAndExecutionIfUserShouldBeCreatedInList(String name, String surname, String address, String login, String password) {
         for (short i = 0; i < this.getUserDetails().size(); i++) {
-            System.out.println("i = " + i + ", listName: " + this.getUserDetails().get(i).getUser_name() + ", provided name: " + name + ", list surname: " + this.getUserDetails().get(i).getUser_surname() + ", " + "provided surname: " + surname);
+           // System.out.println("i = " + i + ", listName: " + this.getUserDetails().get(i).getUser_name() + ", provided name: " + name + ", list surname: " + this.getUserDetails().get(i).getUser_surname() + ", " + "provided surname: " + surname);
             if ((this.compareNameOk(name, surname) == 0) && (i == (this.getUserDetails().size()-1))) {
                 System.out.println("w tym prypadku tworzymy nową klasę");
                 this.createUser(name, surname, address, login, password);
@@ -55,13 +48,21 @@ public class Users {
         }
     }
 
-    public void createUserIdForNewlyCreatedUser(){
-        if(this.getUserDetails().size() != fullyUpdatedRows()){
-            int tmp = 1;
-            tmp += (this.getUserDetails().get((this.getUserDetails().size())-2).getUser_id());
-            this.getUserDetails().get(this.getUserDetails().size()-1).setUser_id(tmp);
+    public void createUserIdForNewlyCreatedUser() {
+        ArrayList<Integer> a = new ArrayList<>();
+        if (this.getUserDetails().size() != fullyUpdatedRows()) {
+            for (int i = 0; i < this.getUserDetails().size(); i++) {
+                a.add((int) this.getUserDetails().get(i).getUser_id());
+            }
+            int max = Collections.max(a);
+            this.getUserDetails().get(this.getUserDetails().size() - 1).setUser_id(max+1); //ustawienie - ustawić max+1
         }
     }
+            // if(this.getUserDetails().size() != fullyUpdatedRows()){
+         //   int tmp = 1;
+           // tmp += (this.getUserDetails().get((this.getUserDetails().size())-2).getUser_id());
+            //this.getUserDetails().get(this.getUserDetails().size()-1).setUser_id(tmp); //ustawienie - ustawić max+1
+
     public int fullyUpdatedRows(){
         int value = 0;
         for(short i=0; i<this.getUserDetails().size(); i++){

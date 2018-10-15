@@ -23,7 +23,7 @@ public class NewSQL_Worker {
         }
         return rsmd;
     }
-    public static int getRowCount(String tableName){
+    public static int getRowCount(String tableName) throws SQLException {
         int count = 0;
         try{
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
@@ -32,13 +32,13 @@ public class NewSQL_Worker {
             rs = stmt.executeQuery("SELECT COUNT (*) AS 'rowcount' FROM " + tableName);
             rs.next();
             count = rs.getInt("rowcount");
-            closeConnection(con, stmt, rs);
         }
         catch (SQLException | ClassNotFoundException e){
             e.printStackTrace();
         }
         return count;
     }
+
     public static void updateExistingDataOfUsers(Users users, String tableName){
         //users -> clear
         users.getUserDetails().clear();
@@ -86,48 +86,50 @@ public class NewSQL_Worker {
         return result;
     }
 
-    public static short getIdOfLastUserInDb(){  //nie działa w klasie User, ogólnie pobiera prawidłowe wartości
+    public static short getIdOfLastUserInDb() throws SQLException {  //nie działa w klasie User, ogólnie pobiera prawidłowe wartości
         short value = 0;
-        try{
+        try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
             con = DriverManager.getConnection(connectionUrl);
             stmt = con.createStatement();
             rs = stmt.executeQuery("Select tmp.UserId FROM WebShop.dbo.Users tmp");
-            while (rs.next()){
+            while (rs.next()) {
                 value = rs.getShort("UserId");
             }
-            closeConnection(con, stmt, rs);
-        }
-        catch (SQLException | ClassNotFoundException e){
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
+        }
+        finally {
+            closeConnection(con, stmt, rs);
         }
         return value;
     }
 
-    public static void commitUserToDatabase(Users user) throws SQLException {
-        try{
+    public static void commitNewUserToDatabase(Users user) throws SQLException {
+        try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            boolean rs2;
             con = DriverManager.getConnection(connectionUrl);
             stmt = con.createStatement();
-            User tmp = user.getUserDetails().get(user.getUserDetails().size());
-
-            if(NewSQL_Worker.checkIfDatabaseHasOldData(user)){
-                rs = stmt.executeQuery("INSERT INTO tablename (UserId, UserName, UserSurname, UserAdress, Login, Password) " +
-                        "VALUES ("+tmp.getUser_id()+", " + tmp.getUser_name()+", "+tmp.getUser_surname()+", "+tmp.getUser_address()+
-                        ", "+tmp.getLogin()+", "+tmp.getUser_password()+")");
+            User tmp = user.getUserDetails().get(user.getUserDetails().size() - 1);
+           // rs2 = stmt.execute("SELECT * FROM WebShop.dbo.Users");
+            String statement = "INSERT INTO WebShop.dbo.Users (UserId, UserName, UserSurname, UserAdress, UserLogin, UserPassword) VALUES ('" + tmp.getUser_id() + "', '" + tmp.getUser_name() + "', '" + tmp.getUser_surname() +"', '" + tmp.getUser_address() + "', '" + tmp.getLogin() + "', '" + tmp.getUser_password() + "')";
+            if (NewSQL_Worker.getRowCount("WebShop.dbo.Users") != user.getUserDetails().size()) {
+                stmt.execute(statement);
             }
-        }
-        catch (SQLException | ClassNotFoundException e){
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        closeConnection(con, stmt, rs);
+        finally {
+            closeConnection(con, stmt, rs);
+        }
     }
-
-    public static boolean checkIfDatabaseHasOldData(Users user){
-        boolean a = true;
-        User tmp = user.getUserDetails().get(user.getUserDetails().size());
-        if((NewSQL_Worker.getRowCount("tablename")) == user.getUserDetails().size()){
-            a = false;
+    public static int checkIfDatabaseHasOldData(Users user) throws SQLException {
+        //boolean a = true;
+        int a = 1;
+        if((NewSQL_Worker.getRowCount("WebShop.dbo.Users")) == user.getUserDetails().size()){
+            //a = false;
+            a = 2;
         }
         return a;
     }
